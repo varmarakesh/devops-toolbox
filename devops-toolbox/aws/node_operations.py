@@ -14,14 +14,19 @@ class Node:
         self.private_ip_address  = private_ip_address
         self.dns_name = dns_name
 
-class HadoopCluster:
+    def __repr__(self):
+        return 'name: {0}, ip_address: {1}. private_ip_address: {2}, dns_name : {3}'.format(self.name, self.ip_address, self.private_ip_address, self.dns_name)
+
+class Cluster:
+    config = None
     nodes = []
 
-    def __init__(self):
-        config = SafeConfigParser()
-        file_path = os.path.join(os.path.dirname(__file__), 'aws_hadoop.hosts')
-        config.read(file_path)
-        for item in config.items("main"):
+    def __init__(self, config):
+        self.config = config
+        c = SafeConfigParser()
+        c.read(config)
+
+        for item in c.items("main"):
             name = item[0]
             private_ip_address = eval(item[1])['private_ip_address']
             ip_address = eval(item[1])['ip_address']
@@ -30,11 +35,11 @@ class HadoopCluster:
             self.nodes.append(node)
 
     def getNode(self, name):
-        for node in self.nodes:
-            if node.name == name:
-                return node
-
-
+        node =  filter(lambda n:n.dns_name == name, self.nodes)
+        if node:
+            return node[0]
+        else:
+            return None
 
 
 

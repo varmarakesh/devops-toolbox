@@ -42,3 +42,15 @@ class ec2_operations:
         #add tags to the created instances.
         for index, instance in enumerate(reservation.instances):
             instance.add_tag("Name", instances[index])
+        return reservation
+
+    def update_config(self, config, reservation):
+        c = SafeConfigParser()
+        c.add_section("main")
+        hadoop_cfgfile = open(config, 'w')
+
+        for instance in reservation.instances:
+            d = {'private_ip_address':instance.private_ip_address, 'ip_address':instance.ip_address, 'dns_name':instance.dns_name}
+            c.set("main",instance, str(d))
+        c.write(hadoop_cfgfile)
+        hadoop_cfgfile.close()
