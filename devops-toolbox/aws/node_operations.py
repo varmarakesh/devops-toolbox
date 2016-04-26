@@ -14,7 +14,7 @@ class Node:
         self.private_ip_address  = private_ip_address
         self.dns_name = dns_name
 
-    def __repr__(self):
+    def __str__(self):
         return 'name: {0}, ip_address: {1}. private_ip_address: {2}, dns_name : {3}'.format(self.name, self.ip_address, self.private_ip_address, self.dns_name)
 
 class Cluster:
@@ -34,12 +34,12 @@ class Cluster:
             node = Node(name = name, private_ip_address = private_ip_address, ip_address = ip_address, dns_name = dns_name)
             self.nodes.append(node)
 
-    def getNode(self, name):
-        node =  filter(lambda n:n.dns_name == name, self.nodes)
-        if node:
-            return node[0]
-        else:
-            return None
+    def __getitem__(self, item):
+        return filter(lambda node:node.name == item, self.nodes)
+
+    def __str__(self):
+        return 'config:{0}\n'.format(self.config) + '\n'.join(str(node) for node in self.nodes)
+
 
 
 
