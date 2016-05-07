@@ -21,10 +21,10 @@ class Cluster:
     config = None
     nodes = []
 
-    def __init__(self, config):
+    def __init__(self, config = None):
         self.config = config
         c = SafeConfigParser()
-        c.read(config)
+        c.read(self.config)
 
         for item in c.items("main"):
             name = item[0]
@@ -35,7 +35,7 @@ class Cluster:
             self.nodes.append(node)
 
     def __getitem__(self, item):
-        return filter(lambda node:node.name == item, self.nodes)
+        return filter(lambda node:node.name == item, self.nodes)[0]
 
     def __str__(self):
         return 'config:{0}\n'.format(self.config) + '\n'.join(str(node) for node in self.nodes)

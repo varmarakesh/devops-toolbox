@@ -19,11 +19,12 @@ class ec2_operations:
 
     def __loadnodes(self):
         for instance in self.ec2.get_only_instances():
-                if 'Name' in instance.tags.keys():
-                    name = instance.tags['Name']
-                else:
-                    name = 'No Name'
-                self.nodes.append(Node(name = name, private_ip_address = instance.private_ip_address, ip_address = instance.ip_address, dns_name = instance.dns_name))
+                if instance.state not in ['terminated', 'stopped']:
+                    if 'Name' in instance.tags.keys():
+                        name = instance.tags['Name']
+                    else:
+                        name = 'No Name'
+                    self.nodes.append(Node(name = name, private_ip_address = instance.private_ip_address, ip_address = instance.ip_address, dns_name = instance.dns_name))
 
     def __str__(self):
         result = ""
@@ -39,7 +40,6 @@ class ec2_operations:
     def __getitem__(self, item):
         f = lambda node:node.name == item
         return filter(f, self.nodes)
-
 
 
     def create_instances(self, image_id, key_name, instance_type, security_group, instances):
@@ -58,15 +58,14 @@ class ec2_operations:
         for index, instance in enumerate(reservation.instances):
             instance.add_tag("Name", instances[index])
         self.__loadnodes()
-        return reservation
 
-    def update_config(self, config, reservation):
+    def update_config(self, config):
         c = SafeConfigParser()
         c.add_section("main")
         hadoop_cfgfile = open(config, 'w')
 
-        for instance in reservation.instances:
+        for instance in self.nodes:
             d = {'private_ip_address':instance.private_ip_address, 'ip_address':instance.ip_address, 'dns_name':instance.dns_name}
-            c.set("main",instance, str(d))
+            c.set("main",instance.name, str(d))
         c.write(hadoop_cfgfile)
         hadoop_cfgfile.close()

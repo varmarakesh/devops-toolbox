@@ -1,2 +1,8 @@
 [main]
-hadoopnamenode = {'private_ip_address': '0:0:0:0', 'dns_name': 'testbox', 'ip_address': '192.168.0.1'}
+mongo1 = {'private_ip_address': u'172.31.46.184', 'dns_name': u'ec2-52-38-248-53.us-west-2.compute.amazonaws.com', 'ip_address': u'52.38.248.53'}
+saltmaster = {'private_ip_address': u'172.31.35.36', 'dns_name': u'ec2-52-32-6-244.us-west-2.compute.amazonaws.com', 'ip_address': u'52.32.6.244'}
+hadoopnamenode = {'private_ip_address': u'172.31.35.37', 'dns_name': u'ec2-52-10-28-225.us-west-2.compute.amazonaws.com', 'ip_address': u'52.10.28.225'}
+hadoopsecondarynamenode = {'private_ip_address': u'172.31.35.38', 'dns_name': u'ec2-52-33-8-72.us-west-2.compute.amazonaws.com', 'ip_address': u'52.33.8.72'}
+hadoopdatanode1 = {'private_ip_address': u'172.31.35.39', 'dns_name': u'ec2-52-36-90-17.us-west-2.compute.amazonaws.com', 'ip_address': u'52.36.90.17'}
+hadoopdatanode2 = {'private_ip_address': u'172.31.35.40', 'dns_name': u'ec2-52-36-60-122.us-west-2.compute.amazonaws.com', 'ip_address': u'52.36.60.122'}
+

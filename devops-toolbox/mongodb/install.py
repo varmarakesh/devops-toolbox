@@ -28,7 +28,7 @@ class mongodb_install:
     def create_mongod(self):
         config_file_text = "fork = true \n bind_ip = 0.0.0.0 \n port = 30000 \n quiet = true \n dbpath = /home/ubuntu/data/db \n logpath = /var/log/mongodb/mongod.log \n logappend = true \n journal = true"
         sudo("echo '{0}' > /etc/mongodb.conf".format(config_file_text))
-        run("/home/ubuntu/mongodb/bin/mongod --config /etc/mongodb.conf")
+        sudo("/home/ubuntu/mongodb/bin/mongod --config /etc/mongodb.conf")
 
     def remove_mongo(self):
         #Remove any mongo_home from the bashrc file.
