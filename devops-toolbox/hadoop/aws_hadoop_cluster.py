@@ -27,6 +27,14 @@ class hadoop_cluster:
     def saltmaster(self):
         return self.cluster['saltmaster']
 
+    @property
+    def all_hadoop_nodes(self):
+        nodes = [self.namenode, self.secondarynamenode]
+        nodes.extend(self.datanodes)
+        return nodes
+
+    def __str__(self):
+        return ''.join(str(node)+'\n' for node in self.all_hadoop_nodes)
 
 
 
