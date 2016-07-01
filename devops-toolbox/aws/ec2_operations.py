@@ -9,7 +9,7 @@ class ec2_operations:
     ec2 = None
     nodes = []
 
-    def __init__(self, region, access_key_id, secret_access_key):
+    def __init__(self, access_key_id, secret_access_key, region = 'us-west-2'):
         self.ec2 = boto.ec2.connect_to_region(
                         region,
                         aws_access_key_id = access_key_id,
@@ -42,8 +42,11 @@ class ec2_operations:
         return filter(f, self.nodes)
 
 
-    def create_instances(self, image_id, key_name, instance_type, security_group, instances):
+    def create_instances(self, security_group, instances, image_id = None, key_name = None, instance_type = None):
         #create ec2 instances.
+        image_id = image_id if image_id is not None else 'ami-5189a661'
+        key_name = key_name if key_name is not None else 'ec2'
+        instance_type = instance_type if instance_type is not None else 't2.micro'
         reservation = self.ec2.run_instances(
                                                 image_id = image_id,
                                                 key_name = key_name,
