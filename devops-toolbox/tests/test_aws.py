@@ -1,5 +1,5 @@
 import unittest
-from aws.node_operations import *
+from aws_ops.node_operations import *
 
 class test(unittest.TestCase):
 

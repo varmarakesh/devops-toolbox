@@ -2,7 +2,7 @@
 #parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #os.sys.path.insert(0,parentdir)
 
-from aws.node_operations import *
+from aws_ops.node_operations import *
 
 class hadoop_cluster:
 

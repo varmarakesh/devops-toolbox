@@ -1,9 +1,9 @@
 from mongodb.install import mongodb_install
 from hadoop.aws_hadoop_cluster import *
 from salt.salt_operations import *
-from aws.aws_configuration import aws_config
+from aws_ops.aws_configuration import aws_config
 from fabric.api import *
-from aws.ec2_operations import *
+from aws_ops.ec2_operations import *
 from nginx.install import nginx_install
 
 @task

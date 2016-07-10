@@ -37,10 +37,18 @@ class ec2_operations:
                 result = result + "{0} => {1}\n".format(name, instance.state)
         return result
 
+    def __repr__(self):
+        return ''.join(str(node)+'\n' for node in self.nodes)
+
     def __getitem__(self, item):
         f = lambda node:node.name == item
         return filter(f, self.nodes)
 
+    def get_instance(self, name):
+        for instance in self.ec2.get_only_instances():
+            if 'Name' in instance.tags.keys():
+                if instance.tags['Name'] == name:
+                    return instance
 
     def create_instances(self, security_group, instances, image_id = None, key_name = None, instance_type = None):
         #create ec2 instances.
@@ -61,6 +69,11 @@ class ec2_operations:
         for index, instance in enumerate(reservation.instances):
             instance.add_tag("Name", instances[index])
         self.__loadnodes()
+
+    def delete_instance(self, name):
+        self.ec2.terminate_instances(instance_ids = [self.get_instance(name).id])
+
+
 
     def update_config(self, config):
         c = SafeConfigParser()
